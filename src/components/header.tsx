@@ -2,7 +2,7 @@
 
 // import { ModelSelectorButton } from "@/components/model-selector-button";
 import { Button } from "@/components/ui/button";
-import { Github, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import { useAppStore } from "@/lib/store";
 import { ThemeToggle } from "@/components/theme-toggle";
 
