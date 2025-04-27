@@ -10,7 +10,7 @@ import { SummaryPanel } from "@/components/summary-panel";
 
 
 export function MainContent() {
-  const { selectedModels, clearSelections, responses } = useAppStore();
+  const { responses } = useAppStore();
   
   return (
     <div className="w-full">
