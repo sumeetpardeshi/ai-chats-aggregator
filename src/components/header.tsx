@@ -1,25 +1,49 @@
 "use client";
 
+// import { ModelSelectorButton } from "@/components/model-selector-button";
+import { Button } from "@/components/ui/button";
+import { Github, Search } from "lucide-react";
+import { useAppStore } from "@/lib/store";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { AIModel } from "@/lib/types";
 
-interface HeaderProps {
-  selectedModels: AIModel[];
-  onClearSelections: () => void;
-}
+export function Header() {
+  const { clearResponses, clearSelections } = useAppStore();
+  
+  const handleClearAll = () => {
+    clearResponses();
+    clearSelections();
+  };
 
-export function Header({ selectedModels, onClearSelections }: HeaderProps) {
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 mb-4">
-      <div className="container flex h-14 items-center justify-between max-w-full px-4">
-        <div className="flex">
-          <h1 className="font-bold text-xl">Multi-Search</h1>
-        </div>
-        <div className="flex items-center gap-4">
-          <nav className="flex items-center">
-            <ThemeToggle />
-          </nav>
-        </div>
+    <header className="fixed top-0 inset-x-0 h-14 border-b bg-background/50 backdrop-blur-sm z-50 flex items-center justify-between px-6">
+      <div className="flex items-center gap-6">
+      <Search className="h-7 w-7" /> <div className="font-semibold text-lg">
+        
+          Multi-Search</div>
+        {/* <ModelSelectorButton /> */}
+      </div>
+      <div className="flex items-center gap-4">
+        <Button 
+          variant="ghost" 
+          size="sm"
+          onClick={handleClearAll}
+        >
+          Clear All
+        </Button>
+        <ThemeToggle />
+        <Button
+          variant="outline"
+          size="icon"
+          asChild
+        >
+          <a
+            href="https://github.com/steven-tey/chatgpt-comparison-tool"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Github className="h-4 w-4" />
+          </a>
+        </Button>
       </div>
     </header>
   );

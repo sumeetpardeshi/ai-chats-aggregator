@@ -4,24 +4,9 @@ import { useAppStore } from "@/lib/store";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { AIModel } from "@/lib/types";
-import { useEffect, useState } from "react";
 
 export function ComparisonView() {
   const { responses, selectedModels } = useAppStore();
-  const [columns, setColumns] = useState(3);
-
-  // Adjust columns based on number of selected models
-  useEffect(() => {
-    if (selectedModels.length === 1) {
-      setColumns(1);
-    } else if (selectedModels.length === 2) {
-      setColumns(2);
-    } else if (selectedModels.length >= 3 && selectedModels.length <= 4) {
-      setColumns(2);
-    } else {
-      setColumns(3);
-    }
-  }, [selectedModels.length]);
 
   if (selectedModels.length === 0) {
     return (

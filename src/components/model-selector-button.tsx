@@ -14,13 +14,6 @@ import {
   DialogTrigger 
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 
 export function ModelSelectorButton() {
   const { models, selectedModels, toggleModelSelection } = useAppStore();

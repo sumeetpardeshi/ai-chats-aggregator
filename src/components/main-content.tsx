@@ -8,19 +8,20 @@ import { PromptInput } from "@/components/prompt-input";
 import { ComparisonView } from "@/components/comparison-view";
 import { SummaryPanel } from "@/components/summary-panel";
 
+
 export function MainContent() {
   const { selectedModels, clearSelections, responses } = useAppStore();
   
   return (
     <div className="w-full">
-      <Header 
-        selectedModels={selectedModels} 
-        onClearSelections={clearSelections} 
-      />
+      <Header />
       
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6">
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6 mt-16">
         <div className="flex items-center gap-3">
-          <h2 className="text-3xl font-bold tracking-tight">AI Models</h2>
+          <h2 className="text-3xl font-bold tracking-tight flex items-center gap-2">
+            
+            AI Models
+          </h2>
           <ModelSelectorButton />
         </div>
         <div className="flex items-center gap-2">
