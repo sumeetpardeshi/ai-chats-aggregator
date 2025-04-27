@@ -59,7 +59,7 @@ export function PromptInput() {
       )}
       {selectedModels.length === 0 && (
         <p className="text-xs text-muted-foreground mt-2 text-center">
-          Please select at least one model to compare in the "Models" tab.
+          Please select at least one model to compare in the &quot;Models&quot; tab.
         </p>
       )}
     </div>

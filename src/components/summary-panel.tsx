@@ -1,157 +1,128 @@
 "use client";
 
 import { useAppStore } from "@/lib/store";
-import { 
-  Card, 
-  CardContent, 
-  CardHeader, 
-  CardTitle,
-  CardDescription, 
-  CardFooter 
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { 
-  Select, 
-  SelectContent, 
-  SelectItem, 
-  SelectTrigger, 
-  SelectValue 
-} from "@/components/ui/select";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Loader2, RefreshCw, X } from "lucide-react";
+import { 
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue
+} from "@/components/ui/select";
+import { Sparkles, RefreshCw } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { AIModel } from "@/lib/types";
 
 export function SummaryPanel() {
   const { 
     models, 
     selectedModels, 
-    responses,
+    responses, 
     summarizationModelId, 
-    setSummarizationModel,
-    generateSummary,
-    summary,
+    setSummarizationModel, 
+    generateSummary, 
+    summary, 
     isSummarizing,
     clearSummary
   } = useAppStore();
 
-  // Allow any model to be used for summarization
+  // All models are available for summarization
   const availableSummarizationModels = models;
 
-  // Check if we have enough responses to summarize
-  const canSummarize = responses.length >= 2 && summarizationModelId;
+  // Check if we have enough responses to summarize (at least 2)
+  const hasEnoughResponses = responses.length >= 2;
 
-  // Check if we're displaying a summary
-  const hasSummary = summary !== null;
-
-  // Get the name of the selected summarization model
-  const modelName = models.find(m => m.id === summarizationModelId)?.name || "Select a model";
-
-  const handleModelSelect = (value: string) => {
-    setSummarizationModel(value);
-  };
-
-  const handleGenerateSummary = () => {
-    if (canSummarize) {
-      generateSummary();
-    }
-  };
+  // Get current summarization model name
+  const currentSummarizationModel = models.find(m => m.id === summarizationModelId);
 
   return (
-    <Card className="w-full backdrop-blur-sm border border-border/50 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-background/60 to-background/30 backdrop-blur-[1px] z-0" />
-      <CardHeader className="relative z-10 bg-muted/20">
-        <div className="flex items-center justify-between">
-          <div>
-            <CardTitle className="text-base">Summarize Responses</CardTitle>
-            <CardDescription>
-              Use another model to analyze and compare the responses
-            </CardDescription>
-          </div>
-          {hasSummary && (
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={clearSummary}
-              className="h-8 w-8"
-            >
-              <X className="h-4 w-4" />
-            </Button>
-          )}
-        </div>
+    <Card className="border border-border/50 bg-background/80 backdrop-blur-sm shadow-md w-full">
+      <CardHeader className="pb-2">
+        <CardTitle className="text-lg flex items-center gap-1">
+          <Sparkles className="h-4 w-4 text-primary" />
+          Summary
+        </CardTitle>
+        <CardDescription>
+          Use another model to summarize and compare the responses
+        </CardDescription>
       </CardHeader>
-      <CardContent className="relative z-10 pt-4">
-        {!hasSummary ? (
-          <div className="flex flex-col gap-4">
-            <div className="flex flex-col gap-2">
-              <label htmlFor="summarization-model" className="text-sm font-medium">
-                Select a model to summarize responses:
-              </label>
-              <Select value={summarizationModelId || ""} onValueChange={handleModelSelect}>
-                <SelectTrigger id="summarization-model" className="w-full">
-                  <SelectValue placeholder="Select a model" />
-                </SelectTrigger>
-                <SelectContent>
-                  {availableSummarizationModels.map(model => (
-                    <SelectItem key={model.id} value={model.id}>
-                      {model.name}
-                      {selectedModels.some(m => m.id === model.id) && " (also used for comparison)"}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            <Button
-              onClick={handleGenerateSummary}
-              disabled={!canSummarize || isSummarizing}
-              className="w-full"
+      <CardContent className="pb-2">
+        <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-medium">Summarization Model</label>
+            <Select
+              value={summarizationModelId || undefined}
+              onValueChange={setSummarizationModel}
+              disabled={isSummarizing}
             >
-              {isSummarizing ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Summarizing...
-                </>
-              ) : (
-                "Generate Summary"
-              )}
-            </Button>
-            {responses.length < 2 && (
-              <p className="text-sm text-muted-foreground">
-                You need at least 2 model responses to generate a summary.
-              </p>
-            )}
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select a model for summarization" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Available Models</SelectLabel>
+                  {availableSummarizationModels.map((model) => {
+                    const isAlsoUsedForComparison = selectedModels.some(m => m.id === model.id);
+                    return (
+                      <SelectItem key={model.id} value={model.id}>
+                        {model.name} 
+                        {isAlsoUsedForComparison && <span className="text-xs text-muted-foreground ml-1">(also used for comparison)</span>}
+                      </SelectItem>
+                    );
+                  })}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
           </div>
-        ) : (
-          <div className="flex flex-col gap-4">
-            <div className="flex items-center justify-between">
-              <p className="text-sm font-medium">Summary by {modelName}</p>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleGenerateSummary}
-                disabled={isSummarizing}
-                className="h-8"
+
+          <Button 
+            onClick={() => generateSummary()} 
+            disabled={!summarizationModelId || !hasEnoughResponses || isSummarizing} 
+            className="w-full"
+          >
+            {isSummarizing ? (
+              <>
+                <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
+                Generating Summary...
+              </>
+            ) : (
+              'Generate Summary'
+            )}
+          </Button>
+        </div>
+
+        {summary ? (
+          <div className="mt-4">
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="text-sm font-medium">Summary Result</h3>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={() => clearSummary()}
+                className="h-8 px-2 text-xs"
               >
-                {isSummarizing ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  <RefreshCw className="h-4 w-4" />
-                )}
+                Clear
               </Button>
             </div>
-            <ScrollArea className="h-[300px]">
-              <div className="whitespace-pre-wrap text-sm">
-                {summary}
-              </div>
+            <ScrollArea className={cn(
+              "border rounded-md p-3 bg-muted/30",
+              summary.length > 300 ? "max-h-[300px]" : "h-auto"
+            )}>
+              <div className="text-sm whitespace-pre-wrap">{summary}</div>
             </ScrollArea>
+          </div>
+        ) : (
+          <div className="mt-4 text-sm text-muted-foreground text-center">
+            {!hasEnoughResponses 
+              ? "Need at least two responses to generate a summary" 
+              : "Select a model and generate a summary"}
           </div>
         )}
       </CardContent>
-      {hasSummary && (
-        <CardFooter className="relative z-10 flex justify-between border-t bg-muted/10 px-6 py-3">
-          <p className="text-xs text-muted-foreground">
-            {responses.length} model responses analyzed
-          </p>
-        </CardFooter>
-      )}
     </Card>
   );
 } 

@@ -43,7 +43,8 @@ export function ApiKeysManager() {
 
   // Initialize form values when dialog opens
   useEffect(() => {
-    if (open && !initializedRef.current) {
+    // Only reset form when the dialog opens or API keys change
+    if ((open && !initializedRef.current) || (open && initializedRef.current)) {
       const newValues = Object.fromEntries(
         uniqueApiKeyNames.map((keyName) => [keyName, apiKeys[keyName] || ""])
       );
@@ -55,6 +56,7 @@ export function ApiKeysManager() {
     if (!open) {
       initializedRef.current = false;
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, apiKeys, uniqueApiKeyNames]);
 
   function onSubmit(values: ApiKeyFormValues) {
