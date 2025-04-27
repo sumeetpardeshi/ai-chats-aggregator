@@ -1,11 +1,42 @@
 import { AIModel } from './types';
 
 export const defaultModels: AIModel[] = [
+  // OpenAI Models
+  {
+    id: 'gpt-4o',
+    name: 'GPT-4o',
+    provider: 'openai',
+    description: 'The most advanced multimodal model with superior performance on vision, audio, and text.',
+    apiKeyName: 'OPENAI_API_KEY',
+    apiEndpoint: 'https://api.openai.com/v1/chat/completions',
+    maxTokens: 4000,
+    temperature: 0.7,
+  },
+  {
+    id: 'gpt-4-vision-preview',
+    name: 'GPT-4 Vision',
+    provider: 'openai',
+    description: 'GPT-4 with vision capabilities for image understanding and reasoning.',
+    apiKeyName: 'OPENAI_API_KEY',
+    apiEndpoint: 'https://api.openai.com/v1/chat/completions',
+    maxTokens: 4000,
+    temperature: 0.7,
+  },
   {
     id: 'gpt-4-turbo',
     name: 'GPT-4 Turbo',
     provider: 'openai',
     description: 'The latest GPT-4 model with improved instruction following, accuracy and knowledge through April 2023.',
+    apiKeyName: 'OPENAI_API_KEY',
+    apiEndpoint: 'https://api.openai.com/v1/chat/completions',
+    maxTokens: 4000,
+    temperature: 0.7,
+  },
+  {
+    id: 'gpt-4',
+    name: 'GPT-4',
+    provider: 'openai',
+    description: 'OpenAI\'s most advanced model, capable of solving difficult problems with greater accuracy.',
     apiKeyName: 'OPENAI_API_KEY',
     apiEndpoint: 'https://api.openai.com/v1/chat/completions',
     maxTokens: 4000,
@@ -21,6 +52,70 @@ export const defaultModels: AIModel[] = [
     maxTokens: 4000,
     temperature: 0.7,
   },
+  {
+    id: 'gpt-3.5-turbo-instruct',
+    name: 'GPT-3.5 Turbo Instruct',
+    provider: 'openai',
+    description: 'Instruction following model optimized for completion-based tasks.',
+    apiKeyName: 'OPENAI_API_KEY',
+    apiEndpoint: 'https://api.openai.com/v1/completions',
+    maxTokens: 4000,
+    temperature: 0.7,
+  },
+  
+  // Google Models
+  {
+    id: 'gemini-2.0-pro',
+    name: 'Gemini 2.0 Pro',
+    provider: 'google',
+    description: 'Google\'s flagship model for reasoning and generating text, code, and images.',
+    apiKeyName: 'GOOGLE_API_KEY',
+    apiEndpoint: 'https://generativelanguage.googleapis.com/v1/models/gemini-2.0-pro:generateContent',
+    maxTokens: 4000,
+    temperature: 0.7,
+  },
+  {
+    id: 'gemini-2.0-flash',
+    name: 'Gemini 2.0 Flash',
+    provider: 'google',
+    description: 'Google\'s latest high-performance model for fast, efficient inference with comparable quality to Pro.',
+    apiKeyName: 'GOOGLE_API_KEY',
+    apiEndpoint: 'https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent',
+    maxTokens: 4000,
+    temperature: 0.7,
+  },
+  {
+    id: 'gemini-2.0-vision',
+    name: 'Gemini 2.0 Vision',
+    provider: 'google',
+    description: 'Google\'s multimodal model with enhanced vision capabilities.',
+    apiKeyName: 'GOOGLE_API_KEY',
+    apiEndpoint: 'https://generativelanguage.googleapis.com/v1/models/gemini-2.0-pro-vision:generateContent',
+    maxTokens: 4000,
+    temperature: 0.7,
+  },
+  {
+    id: 'gemini-1.5-pro',
+    name: 'Gemini 1.5 Pro',
+    provider: 'google',
+    description: 'Google\'s long context model with 1M token context window and multimodal capabilities.',
+    apiKeyName: 'GOOGLE_API_KEY',
+    apiEndpoint: 'https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent',
+    maxTokens: 4000,
+    temperature: 0.7,
+  },
+  {
+    id: 'gemini-1.0-pro',
+    name: 'Gemini 1.0 Pro',
+    provider: 'google',
+    description: 'Google\'s earlier multimodal model balancing quality, speed, and cost.',
+    apiKeyName: 'GOOGLE_API_KEY',
+    apiEndpoint: 'https://generativelanguage.googleapis.com/v1/models/gemini-1.0-pro:generateContent',
+    maxTokens: 4000,
+    temperature: 0.7,
+  },
+  
+  // Anthropic Models
   {
     id: 'claude-3-opus',
     name: 'Claude 3 Opus',
@@ -41,16 +136,8 @@ export const defaultModels: AIModel[] = [
     maxTokens: 4000,
     temperature: 0.7,
   },
-  {
-    id: 'gemini-2.0-flash',
-    name: 'Gemini 2.0 Flash',
-    provider: 'google',
-    description: 'Google\'s latest high-performance model for fast, efficient inference with comparable quality to Pro.',
-    apiKeyName: 'GOOGLE_API_KEY',
-    apiEndpoint: 'https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent',
-    maxTokens: 4000,
-    temperature: 0.7,
-  },
+  
+  // Other providers
   {
     id: 'deepseek-coder',
     name: 'DeepSeek Coder',

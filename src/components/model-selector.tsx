@@ -4,24 +4,27 @@ import { useAppStore } from "@/lib/store";
 import { AIModel } from "@/lib/types";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 export function ModelSelector() {
   const { models, selectedModels, toggleModelSelection } = useAppStore();
 
   return (
-    <ScrollArea className="h-full">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-        {models.map((model) => (
-          <ModelCard
-            key={model.id}
-            model={model}
-            isSelected={selectedModels.some((m) => m.id === model.id)}
-            onToggle={toggleModelSelection}
-          />
-        ))}
-      </div>
-    </ScrollArea>
+    <div className="h-full w-full">
+      <ScrollArea className="w-full">
+        <div className="flex flex-nowrap gap-4 p-4 w-max">
+          {models.map((model) => (
+            <ModelCard
+              key={model.id}
+              model={model}
+              isSelected={selectedModels.some((m) => m.id === model.id)}
+              onToggle={toggleModelSelection}
+            />
+          ))}
+        </div>
+        <ScrollBar orientation="horizontal" />
+      </ScrollArea>
+    </div>
   );
 }
 
@@ -57,7 +60,7 @@ function ModelCard({ model, isSelected, onToggle }: ModelCardProps) {
     <Card
       className={`relative overflow-hidden border-2 transition-all hover:shadow-md ${getBorderClass()} ${
         isSelected ? "shadow-lg" : ""
-      }`}
+      } w-[280px] flex-shrink-0`}
     >
       <div className="absolute inset-0 bg-gradient-to-br from-background/80 to-background/40 backdrop-blur-[2px] z-0" />
       <CardHeader className="relative z-10">
