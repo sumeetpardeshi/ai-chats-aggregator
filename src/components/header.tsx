@@ -31,19 +31,7 @@ export function Header() {
           Clear All
         </Button>
         <ThemeToggle />
-        <Button
-          variant="outline"
-          size="icon"
-          asChild
-        >
-          <a
-            href="https://github.com/steven-tey/chatgpt-comparison-tool"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Github className="h-4 w-4" />
-          </a>
-        </Button>
+       
       </div>
     </header>
   );

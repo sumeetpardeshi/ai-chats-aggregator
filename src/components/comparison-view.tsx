@@ -4,6 +4,7 @@ import { useAppStore } from "@/lib/store";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { AIModel } from "@/lib/types";
+import { ProviderLogo } from "@/components/provider-logo";
 
 export function ComparisonView() {
   const { responses, selectedModels } = useAppStore();
@@ -91,7 +92,10 @@ function ModelResponseCard({ model, response }: ModelResponseCardProps) {
       <div className="absolute inset-0 bg-gradient-to-br from-background/60 to-background/30 backdrop-blur-[1px] z-0" />
       <CardHeader className={`relative z-10 ${getHeaderClass()} py-3`}>
         <CardTitle className="flex items-center justify-between text-base">
-          <span>{model.name}</span>
+          <div className="flex items-center gap-2">
+            <ProviderLogo provider={model.provider} className="h-5 w-5" />
+            <span>{model.name}</span>
+          </div>
           {response?.duration && (
             <span className="text-xs text-muted-foreground">
               {(response.duration / 1000).toFixed(2)}s
