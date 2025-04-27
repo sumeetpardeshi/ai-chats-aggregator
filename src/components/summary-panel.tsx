@@ -1,7 +1,7 @@
 "use client";
 
 import { useAppStore } from "@/lib/store";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { 
@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/select";
 import { Sparkles, RefreshCw } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { AIModel } from "@/lib/types";
 
 export function SummaryPanel() {
   const { 
@@ -35,9 +34,6 @@ export function SummaryPanel() {
 
   // Check if we have enough responses to summarize (at least 2)
   const hasEnoughResponses = responses.length >= 2;
-
-  // Get current summarization model name
-  const currentSummarizationModel = models.find(m => m.id === summarizationModelId);
 
   return (
     <Card className="border border-border/50 bg-background/80 backdrop-blur-sm shadow-md w-full">
