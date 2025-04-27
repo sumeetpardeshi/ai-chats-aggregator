@@ -14,7 +14,6 @@ import {
   SelectValue
 } from "@/components/ui/select";
 import { Sparkles, RefreshCw } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 export function SummaryPanel() {
   const { 
