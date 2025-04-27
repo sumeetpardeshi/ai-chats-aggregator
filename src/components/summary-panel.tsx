@@ -36,8 +36,8 @@ export function SummaryPanel() {
   const hasEnoughResponses = responses.length >= 2;
 
   return (
-    <Card className="border border-border/50 bg-background/80 backdrop-blur-sm shadow-md w-full">
-      <CardHeader className="pb-2">
+    <Card className="border border-border/50 bg-background/80 backdrop-blur-sm shadow-md w-full h-full flex flex-col">
+      <CardHeader className="pb-2 flex-shrink-0">
         <CardTitle className="text-lg flex items-center gap-1">
           <Sparkles className="h-4 w-4 text-primary" />
           Summary
@@ -46,8 +46,8 @@ export function SummaryPanel() {
           Use another model to summarize and compare the responses
         </CardDescription>
       </CardHeader>
-      <CardContent className="pb-2">
-        <div className="flex flex-col gap-3">
+      <CardContent className="pb-2 flex-1 overflow-hidden flex flex-col">
+        <div className="flex flex-col gap-3 flex-shrink-0">
           <div className="flex flex-col gap-2">
             <label className="text-sm font-medium">Summarization Model</label>
             <Select
@@ -92,8 +92,8 @@ export function SummaryPanel() {
         </div>
 
         {summary ? (
-          <div className="mt-4">
-            <div className="flex items-center justify-between mb-2">
+          <div className="mt-4 flex-1 min-h-0 flex flex-col">
+            <div className="flex items-center justify-between mb-2 flex-shrink-0">
               <h3 className="text-sm font-medium">Summary Result</h3>
               <Button 
                 variant="ghost" 
@@ -104,12 +104,11 @@ export function SummaryPanel() {
                 Clear
               </Button>
             </div>
-            <ScrollArea className={cn(
-              "border rounded-md p-3 bg-muted/30",
-              summary.length > 300 ? "max-h-[300px]" : "h-auto"
-            )}>
-              <div className="text-sm whitespace-pre-wrap">{summary}</div>
-            </ScrollArea>
+            <div className="flex-1 min-h-0">
+              <ScrollArea className="h-full border rounded-md p-3 bg-muted/30">
+                <div className="text-sm whitespace-pre-wrap pr-4">{summary}</div>
+              </ScrollArea>
+            </div>
           </div>
         ) : (
           <div className="mt-4 text-sm text-muted-foreground text-center">

@@ -33,19 +33,19 @@ export function MainContent() {
             <TabsTrigger value="models">Models</TabsTrigger>
           </TabsList>
           
-          <TabsContent value="compare" className="flex-1 flex flex-col pt-4 h-full w-full">
-            <div className="grid grid-cols-1 lg:grid-cols-[1fr_350px] gap-4 h-full">
-              <div className="flex flex-col space-y-4 h-full">
-                <div className="flex-1 overflow-auto min-h-0 w-full pb-4">
+          <TabsContent value="compare" className="flex-1 flex flex-col pt-4 h-full w-full overflow-hidden">
+            <div className="grid grid-cols-1 lg:grid-cols-[1fr_350px] gap-4 h-full min-h-0 overflow-hidden">
+              <div className="flex flex-col min-h-0 h-full overflow-hidden">
+                <div className="flex-1 overflow-auto pb-4">
                   <ComparisonView />
                 </div>
-                <div className="mt-auto sticky bottom-0 bg-background/90 backdrop-blur-sm pt-2 pb-2 w-full">
+                <div className="mt-auto">
                   <PromptInput />
                 </div>
               </div>
               
               {responses.length > 0 && (
-                <div className="w-full h-full flex flex-col">
+                <div className="h-full min-h-0 overflow-hidden">
                   <SummaryPanel />
                 </div>
               )}

@@ -1,14 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAppStore } from "@/lib/store";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Send, Loader2 } from "lucide-react";
+import { Send, Loader2, MessageSquarePlus } from "lucide-react";
 
 export function PromptInput() {
   const { sendPrompt, isLoading, selectedModels } = useAppStore();
   const [localPrompt, setLocalPrompt] = useState("");
+  const [hasFocus, setHasFocus] = useState(false);
+  const [pulsing, setPulsing] = useState(true);
+
+  // Stop pulsing after a few seconds or when the user interacts
+  useEffect(() => {
+    const timer = setTimeout(() => setPulsing(false), 5000);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleSendPrompt = async () => {
     if (!localPrompt.trim() || isLoading || selectedModels.length === 0) return;
@@ -22,15 +30,39 @@ export function PromptInput() {
       e.preventDefault();
       handleSendPrompt();
     }
+    setPulsing(false);
   };
 
   return (
-    <div className="w-full mx-auto">
-      <div className="relative bg-background/80 backdrop-blur-md border border-border/50 rounded-lg p-2 flex glass w-full">
+    <div className="w-full mx-auto py-3 sticky bottom-0 z-10">
+      <div 
+        className={`
+          relative 
+          bg-background 
+          backdrop-blur-md 
+          border 
+          rounded-xl 
+          p-3 
+          flex 
+          w-full
+          transition-all
+          duration-200
+          ${hasFocus ? 'border-primary shadow-primary/20' : 'border-primary/30'} 
+          ${pulsing ? 'input-pulse' : 'shadow-lg'}
+        `}
+      >
+        <div className="flex items-center text-muted-foreground pr-2">
+          <MessageSquarePlus className="h-5 w-5" />
+        </div>
         <Textarea
           value={localPrompt}
           onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setLocalPrompt(e.target.value)}
           onKeyDown={handleKeyDown}
+          onFocus={() => {
+            setHasFocus(true);
+            setPulsing(false);
+          }}
+          onBlur={() => setHasFocus(false)}
           placeholder={selectedModels.length === 0 
             ? "Please select models first" 
             : `Send a prompt to ${selectedModels.length} selected model${selectedModels.length > 1 ? 's' : ''}...`
@@ -41,9 +73,15 @@ export function PromptInput() {
         <Button
           onClick={handleSendPrompt}
           disabled={isLoading || !localPrompt.trim() || selectedModels.length === 0}
-          className="absolute bottom-3 right-3"
+          className={`
+            absolute 
+            bottom-3 
+            right-3
+            transition-all
+            ${!localPrompt.trim() ? 'opacity-70' : 'opacity-100'}
+          `}
           size="icon"
-          variant="ghost"
+          variant={localPrompt.trim() ? "default" : "ghost"}
         >
           {isLoading ? (
             <Loader2 className="h-5 w-5 animate-spin" />
