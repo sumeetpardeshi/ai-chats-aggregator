@@ -20,7 +20,7 @@ export function MainContent() {
       />
       
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6">
-        <h2 className="text-3xl font-bold tracking-tight">AI Model Comparison</h2>
+        <h2 className="text-3xl font-bold tracking-tight">Multi search and summarize your results</h2>
         <div className="flex items-center gap-2">
           <ApiKeysManager />
         </div>
