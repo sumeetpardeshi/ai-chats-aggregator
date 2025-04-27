@@ -6,7 +6,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "AI Model Comparison",
+  title: "Multi-Search",
   description: "Compare outputs from multiple AI models side-by-side",
 };
 

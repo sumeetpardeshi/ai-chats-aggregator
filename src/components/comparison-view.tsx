@@ -33,17 +33,14 @@ export function ComparisonView() {
     );
   }
 
-  // Dynamically create the grid template
-  const gridStyle = {
-    gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
-  };
-
   return (
-    <div className="w-full h-full flex justify-center">
-      <div 
-        className="grid gap-4 h-full overflow-hidden w-full auto-rows-auto mx-auto"
-        style={gridStyle}
-      >
+    <div className="w-full h-full">
+      <div className={`grid gap-4 grid-cols-1 ${
+        selectedModels.length === 1 ? 'md:grid-cols-1' : 
+        selectedModels.length === 2 ? 'md:grid-cols-2' : 
+        selectedModels.length >= 3 && selectedModels.length <= 4 ? 'md:grid-cols-2' : 
+        'md:grid-cols-3'
+      } auto-rows-[500px]`}>
         {selectedModels.map((model) => (
           <ModelResponseCard
             key={model.id}
@@ -105,9 +102,9 @@ function ModelResponseCard({ model, response }: ModelResponseCardProps) {
   };
 
   return (
-    <Card className={`h-[500px] min-h-[500px] overflow-hidden backdrop-blur-sm border ${getCardClass()} relative w-full`}>
+    <Card className={`h-full overflow-hidden backdrop-blur-sm border ${getCardClass()} relative w-full`}>
       <div className="absolute inset-0 bg-gradient-to-br from-background/60 to-background/30 backdrop-blur-[1px] z-0" />
-      <CardHeader className={`relative z-10 ${getHeaderClass()}`}>
+      <CardHeader className={`relative z-10 ${getHeaderClass()} py-3`}>
         <CardTitle className="flex items-center justify-between text-base">
           <span>{model.name}</span>
           {response?.duration && (
@@ -117,7 +114,7 @@ function ModelResponseCard({ model, response }: ModelResponseCardProps) {
           )}
         </CardTitle>
       </CardHeader>
-      <CardContent className="relative z-10 p-0 h-[calc(100%-60px)]">
+      <CardContent className="relative z-10 p-0 h-[calc(100%-56px)]">
         <ScrollArea className="h-full p-4">
           {!response && (
             <div className="flex items-center justify-center h-full">
