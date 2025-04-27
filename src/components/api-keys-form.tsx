@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useAppStore } from "@/lib/store";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -16,7 +16,6 @@ export function ApiKeysManager() {
   const [open, setOpen] = useState(false);
   const { models, apiKeys, setApiKey } = useAppStore();
   const [formReady, setFormReady] = useState(false);
-  const initializedRef = useRef(false);
 
   // Get unique API key names
   const uniqueApiKeyNames = Array.from(
@@ -37,27 +36,27 @@ export function ApiKeysManager() {
   const form = useForm<ApiKeyFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: Object.fromEntries(
-      uniqueApiKeyNames.map((keyName) => [keyName, apiKeys[keyName] || ""])
+      uniqueApiKeyNames.map((keyName) => [keyName, ""])
     ),
   });
 
   // Initialize form values when dialog opens
   useEffect(() => {
-    // Only reset form when the dialog opens or API keys change
-    if ((open && !initializedRef.current) || (open && initializedRef.current)) {
-      const newValues = Object.fromEntries(
-        uniqueApiKeyNames.map((keyName) => [keyName, apiKeys[keyName] || ""])
-      );
+    if (open) {
+      // Create new values object
+      const newValues = {} as ApiKeyFormValues;
+      
+      // Set values from apiKeys
+      uniqueApiKeyNames.forEach((keyName) => {
+        newValues[keyName] = apiKeys[keyName] || "";
+      });
+      
+      // Reset the form with these values
       form.reset(newValues);
-      initializedRef.current = true;
       setFormReady(true);
     }
-    
-    if (!open) {
-      initializedRef.current = false;
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open, apiKeys, uniqueApiKeyNames]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open]);
 
   function onSubmit(values: ApiKeyFormValues) {
     Object.entries(values).forEach(([name, value]) => {
